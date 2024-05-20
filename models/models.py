@@ -1,6 +1,7 @@
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
+
 # Conventional and convolutional neural network
 
 class ConvNet(nn.Module):
@@ -24,7 +25,7 @@ class ConvNet(nn.Module):
         out = self.fc(out)
         return out
     
-# Phocnet implementation 
+# Phocnet implementation from GH Repo
 class PHOCNet(nn.Module):
     def __init__(self, num_classes=604):  # Based on  PHOC
         super(PHOCNet, self).__init__()
