@@ -58,5 +58,6 @@ if __name__ == "__main__":
         learning_rate=5e-3,
         dataset="MNIST",
         architecture="CNN")
+    
     model = model_pipeline(config)
 
