@@ -1,6 +1,9 @@
 from tqdm.auto import tqdm
 import wandb
 
+from utils.wandb_logs import *
+from utils.predict_with_PHOC import load_model
+
 def train(model, loader, criterion, optimizer, config):
     # Tell wandb to watch what the model gets up to: gradients, weights, and more!
     wandb.watch(model, criterion, log="all", log_freq=10)

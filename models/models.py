@@ -1,7 +1,7 @@
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-
+import SpatialPyramidPooling 
 # Conventional and convolutional neural network
 
 class ConvNet(nn.Module):
@@ -27,81 +27,80 @@ class ConvNet(nn.Module):
     
 # Phocnet implementation from PHOCNet GH Repo
 class PHOCNet(nn.Module):
-    def __init__(self, num_classes=604):  # Based on  PHOC
+
+    def __init__(self, n_out, input_channels = 3, pooling_levels = 3, pool_type = 'max_pool'):
         super(PHOCNet, self).__init__()
+
+        self.conv_block1 = nn.Sequential(
+            nn.Conv2d(in_channels=input_channels, out_channels=64, kernel_size=3, stride=1, padding=1),
+            nn.ReLU(),
+            nn.Conv2d(in_channels=64, out_channels=64, kernel_size=3, stride=1, padding=1),
+            nn.ReLU()
+        )
+
+        self.conv_block2 = nn.Sequential(
+            nn.Conv2d(in_channels=64, out_channels=128, kernel_size=3, stride=1, padding=1),
+            nn.ReLU(),
+            nn.Conv2d(in_channels=128, out_channels=128, kernel_size=3, stride=1, padding=1),
+            nn.ReLU()
+        )
+
+        self.conv_block3 = nn.Sequential(
+            nn.Conv2d(in_channels=128, out_channels=256, kernel_size=3, stride=1, padding=1),
+            nn.ReLU(),
+            nn.Conv2d(in_channels=256, out_channels=256, kernel_size=3, stride=1, padding=1),
+            nn.ReLU(),
+            nn.Conv2d(in_channels=256, out_channels=256, kernel_size=3, stride=1, padding=1),
+            nn.ReLU(),
+            nn.Conv2d(in_channels=256, out_channels=256, kernel_size=3, stride=1, padding=1),
+            nn.ReLU(),
+            nn.Conv2d(in_channels=256, out_channels=256, kernel_size=3, stride=1, padding=1),
+            nn.ReLU(),
+            nn.Conv2d(in_channels=256, out_channels=256, kernel_size=3, stride=1, padding=1),
+            nn.ReLU()
+        )
+
+        self.conv_block4 = nn.Sequential(
+            nn.Conv2d(in_channels=256, out_channels=512, kernel_size=3, stride=1, padding=1),
+            nn.ReLU(),
+            nn.Conv2d(in_channels=512, out_channels=512, kernel_size=3, stride=1, padding=1),
+            nn.ReLU(),
+            nn.Conv2d(in_channels=512, out_channels=512, kernel_size=3, stride=1, padding=1),
+            nn.ReLU()
+        )
         
-        # Convolutional Layers
-        self.conv1 = nn.Conv2d(1, 64, kernel_size=3, padding=1)  # Asume entrada de imagen en escala de grises
-        self.conv2 = nn.Conv2d(64, 128, kernel_size=3, padding=1)
-        self.conv3 = nn.Conv2d(128, 256, kernel_size=3, padding=1)
-        self.conv4 = nn.Conv2d(256, 256, kernel_size=3, padding=1)
-        self.conv5 = nn.Conv2d(256, 512, kernel_size=3, padding=1)
+        self.pooling_layer_fn = SpatialPyramidPooling(levels = pooling_levels) #, pool_type=pool_type     pool_type is not used in the forward function
+        pooling_output_size = self.pooling_layer_fn.pooling_output_size
         
-        # Capas de pooling
-        self.pool1 = nn.MaxPool2d(2, 2)  # Pooling con stride de 2
-        self.pool2 = nn.MaxPool2d(2, 2)
-        self.pool3 = nn.MaxPool2d(2, 2)
-        self.pool4 = nn.MaxPool2d(2, 2)
-        
-        # Spatial Pyramid Pooling si es necesario o capa de adaptación
-        self.adaptive_pool = nn.AdaptiveMaxPool2d(1)
-        
-        # Capas totalmente conectadas
-        self.fc1 = nn.Linear(512, 1024)
-        self.fc2 = nn.Linear(1024, num_classes)
-        
-        # Dropout para regularización
-        self.dropout = nn.Dropout(0.5)
-        
+        self.fc1 = nn.Linear(pooling_output_size, 4096)
+        self.fc2 = nn.Linear(4096, 4096)
+        self.fc3 = nn.Linear(4096, n_out)
+
     def forward(self, x):
-        x = F.relu(self.conv1(x))
-        x = self.pool1(x)
-        x = F.relu(self.conv2(x))
-        x = self.pool2(x)
-        x = F.relu(self.conv3(x))
-        x = self.pool3(x)
-        x = F.relu(self.conv4(x))
-        x = self.pool4(x)
-        x = F.relu(self.conv5(x))
-        
-        # Adaptación de la capa de pooling para manejar entradas de tamaño variable
-        x = self.adaptive_pool(x)
-        
-        # Aplanar las características para la capa totalmente conectada
-        x = torch.flatten(x, 1)
-        
-        x = self.dropout(x)
-        x = F.relu(self.fc1(x))
-        x = self.dropout(x)
-        x = self.fc2(x)
-        
+        out = self.conv_block1(x)
+        out = F.max_pool2d(out, kernel_size=2, stride=2, padding=0)
+        out = self.conv_block2(out)
+        out = F.max_pool2d(out, kernel_size=2, stride=2, padding=0)
+        out = self.conv_block3(out)
+        out = self.conv_block4(out)
+
+        out = self.pooling_layer_fn(out)
+        out = self.fc1(out)
+        out = F.relu(out)
+        out = F.dropout(out, p = 0.5, training = self.training)
+        out = self.fc2(out)
+        out = F.relu(out)
+        out = F.dropout(out, p = 0.5, training = self.training)
+        out = self.fc3(out)
+
         # Sigmoid para salida multilabel
-        x = torch.sigmoid(x)
-        return x
+        out = F.sigmoid(x)
+
+        return out
+
+    def init_weights(m):
+        if isinstance(m, nn.Conv2d) or isinstance(m, nn.Linear):
+            nn.init.kaiming_normal_(m.weight.data)
+            if m.bias is not None:
+                nn.init.constant_(m.bias.data, 0)
     
-
-
-# YOLO 
-from ultralytics import YOLO
-import sys
-import os
-sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
-from params import *
-import yaml
-
-info = {
-    "path": path_yolo_detection,
-    "train": train_images,
-    "val": test_images,
-    "nc": 1,
-    "names": ['character']
-}
-"""with open(data_yaml_detection, 'w') as outfile:
-    yaml.dump(info, outfile, default_flow_style=True)
-"""
-# Load model
-model = YOLO("yolov8n.yaml")
-
-results = model.train(data = """data_yaml_detection""", epochs = 50, task = "detect")
-
-print(model)
