@@ -1,9 +1,9 @@
 import numpy as np
 import os
 import torch
-import torch.nn 
+import torch.nn as nn
 from torchvision import transforms
-from models.PHOCNet import *
+from PHOCNet import *
 
 from torch.optim.lr_scheduler import StepLR, CyclicLR, CosineAnnealingLR, ReduceLROnPlateau
 from torchvision import datasets, models, transforms

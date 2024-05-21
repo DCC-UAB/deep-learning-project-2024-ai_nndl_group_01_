@@ -7,7 +7,8 @@ from params import *
 import pickle
 
 
-annotations_file = lexicon.txt # Path to the file with the list of words
+
+annotations_file = 'lexicon.txt '# Path to the file with the list of words
 
 with open(annotations_file, "r") as file:
     list_of_words = file.readlines()

@@ -41,7 +41,7 @@ val_dataset = MJSynthDataset(
 val_loader = DataLoader(val_dataset, batch_size=config.batch_size, shuffle=False)
 
 # Inicializar el modelo, el optimizador y la función de pérdida
-model = PHOCNet(n_out=604)  # Cambia n_out según tu tarea
+model = PHOCNet(n_out=604)  # Cambiar a la dimension que tenga phoc 
 optimizer = optim.Adam(model.parameters(), lr=config.learning_rate)
 criterion = nn.BCELoss()
 
