@@ -71,7 +71,8 @@ class PHOCNet(nn.Module):
         out = F.dropout(out, p = 0.5, training = self.training)
         out = self.fc3(out)
 
-        #FALTA SIGMOID???
+        # Sigmoid para salida multilabel
+        out = F.sigmoid(x)
         return out
 
     def init_weights(m):

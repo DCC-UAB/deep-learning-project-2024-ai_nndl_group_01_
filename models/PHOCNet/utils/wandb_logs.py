@@ -35,7 +35,7 @@ def draw_one_image(image, text_label, predicted_label):
     else:
         color = "red"
     text = text_label + "\n" + predicted_label
-    font = ImageFont.truetype(f'/home/alumne/xnap-project-ed_group_01/generate_images/fonts/ARIAL.TTF', 10)
+    font = ImageFont.truetype(f'', 10)
     draw.text((0,0), text, font=font, fill = color)
     return image
 
