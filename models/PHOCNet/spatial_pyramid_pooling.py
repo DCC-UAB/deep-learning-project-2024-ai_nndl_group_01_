@@ -23,4 +23,3 @@ class SpatialPyramidPooling(nn.Module):
             pools.append(pool.view(num, -1))
 
         return torch.cat(pools, dim=1)
-    

@@ -8,7 +8,7 @@ dependencies:
 - numpy
 - tqdm
 - tensorboard
-- protobuf<=3.20
+- protobuf==3.20
 - pip
 - pip:
   - torchvision
@@ -16,3 +16,5 @@ dependencies:
   - wandb
   - onnxruntime
   - ipykernel
+  - ultralytics
+  - editdistance
