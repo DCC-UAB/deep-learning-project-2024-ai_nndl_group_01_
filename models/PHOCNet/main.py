@@ -10,7 +10,7 @@ from params import *
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
 def model_pipeline(cfg:dict) -> None:
-    with wandb.init(project="PHOCnet_BN", config=cfg):
+    with wandb.init(project="PHOCNet DL CroppedWordRecognition", config=cfg):
         config = wandb.config
 
         model, train_loader, test_loader, criterion, optimizer, scheduler = make(config, device)
