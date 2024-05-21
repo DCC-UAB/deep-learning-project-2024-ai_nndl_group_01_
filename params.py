@@ -41,7 +41,7 @@ yolo_entrenat_recog_detect = f"{parent}/PIPELINE/YOLO/trained_models/{yolo_pipel
 yolo_pipeline_store_files = f"{parent}/PIPELINE/YOLO"
 
 # PIPELINE (PHOCNET)
-saved_model_phocnet = f"{parent}/PIPELINE/PHOCNET/trained_models/"
+saved_model_phocnet = f"{parent}/PIPELINE/PHOCNET/trained_models/" # TODO: modify filenames to our scenario
 store_knn_classifier = f"{parent}/PIPELINE/PHOCNET/utils/knn_classifier"
 lexicon_file = f"{parent}/Datasets/lexicon.txt"
 bigrams_file = f"{parent}/PIPELINE/PHOCNET/utils/bigrams_file.txt"
