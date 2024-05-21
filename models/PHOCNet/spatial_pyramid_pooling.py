@@ -3,8 +3,8 @@ import torch.nn as nn
 import torch.nn.functional as F
 
 class SpatialPyramidPooling(nn.Module):
-    def _init_(self, levels=[1, 2, 4]):
-        super(SpatialPyramidPooling, self)._init_()
+    def __init__(self, levels=[1, 2, 4]):
+        super(SpatialPyramidPooling, self).__init__()
         self.levels = levels
 
     def forward(self, x):
