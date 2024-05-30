@@ -1,20 +1,27 @@
 name: xnap-example
 channels:
-- pytorch
-- defaults
+  - pytorch
+  - defaults
 dependencies:
-- python=3.8
-- pytorch
-- numpy
-- tqdm
-- tensorboard
-- protobuf==3.20
-- pip
-- pip:
-  - torchvision
-  - onnx
-  - wandb
-  - onnxruntime
-  - ipykernel
-  - ultralytics
-  - editdistance
+  - python=3.8
+  - pytorch
+  - numpy
+  - tqdm
+  - tensorboard
+  - protobuf==3.20
+  - pip
+  - scikit-learn
+  - matplotlib  # For matplotlib.pyplot
+  - pillow  # For PIL
+  - opencv  # For cv2
+  - pandas  # Added pandas
+  - pip:
+    - torchvision
+    - onnx
+    - wandb
+    - onnxruntime
+    - ipykernel
+    - ultralytics
+    - editdistance
+    - random-word
+    - wandb
