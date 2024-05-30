@@ -160,6 +160,7 @@ CRAFT (Character Region Awareness for Text detection) stands out among the word 
 3.  **High Accuracy**: The character-level detection and robust linking mechanism contribute to higher accuracy in word detection compared to methods that operate at the word or line level.
 
 In conclusion, CRAFT was chosen for its superior ability to detect characters accurately and link them effectively to form words, providing robust and precise word detection in various challenging scenarios.
+
 ![alt text](https://i.imgur.com/wuWEB4M.jpeg)
 
 
@@ -190,7 +191,9 @@ The images that performed the least effectively with the CRAFT model have some c
 3.  **Background Complexity**:
     
 4.  **Size and Orientation of Text**:
-    ![alt text](https://i.imgur.com/xaSVfnU.jpeg)
+
+
+ ![alt text](https://i.imgur.com/xaSVfnU.jpeg)
 
 
 ### Recognition
@@ -207,7 +210,9 @@ Once text detection identifies text regions, these regions are processed through
 2.  **LSTM Network:** Processes the features to generate sequential data.
 3.  **CTC Decoder:** Converts LSTM outputs into readable text.
 
+
 ![merge](https://i.imgur.com/VBmrH9q.jpeg)
+
 
 #### Receptive Fields 
 
@@ -221,6 +226,7 @@ Feature maps extracted by the CNN are reshaped and fed into an LSTM model. A fea
 -   512 is the number of features per time step.
 
 This sequential data is then processed by the LSTM to produce softmax probabilities over the vocabulary.
+
 ![merge](https://i.imgur.com/Bd29USv.jpeg)
 
 #### Calculating Loss 
