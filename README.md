@@ -106,23 +106,6 @@ Un cop hem detectat els caràcters de la imatge, pasarem al procés de reconeixe
 ### Detection
 
 Comencarem abordant el problema de la detecció dels caràcters de la paraula amb la que estiguem treballant. Explorarem dos metodologies principals per dur a terme la detecció: la primera consisteix en utilitzar un sistema de reconeixement òptic de caràcters (OCR) mitjançant tècniques de visió per computador, i la segona es basa en el model YOLO (You Only Look Once), més concretament el YOLOv8, que és actualment un dels millors en el camp de la detecció. 
-
-```
-
-conda activate xnap-example
-
-```
-
-  
-
-To run the example code:
-
-```
-
-python main.py
-
-```
-
   
   
 ## Contributors
