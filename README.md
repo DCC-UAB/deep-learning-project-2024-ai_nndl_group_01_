@@ -298,6 +298,8 @@ CTC loss enables training without the need for alignment between input images an
 
 ![merge](https://i.imgur.com/iUw7QsI.jpeg)
 
+It is important to highlight that during the training an error in decoder produces that low character accuracy.
+
 ### Results
 
 ### Interpretation of Metrics
