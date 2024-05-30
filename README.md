@@ -319,6 +319,7 @@ This metric indicates the average number of edits (insertions, deletions, or sub
 **Test Character Accuracy: 0.76** 
 **Test Average Levenshtein Distance: 0.97**
 
+![merge](https://i.imgur.com/ZJ3nL9Y.jpeg)
 
 ## Contributors
 Write here the name and UAB mail of the group members
