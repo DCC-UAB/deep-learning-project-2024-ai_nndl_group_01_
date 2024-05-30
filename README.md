@@ -148,6 +148,7 @@ Write here the name and UAB mail of the group members
 - Marino Oliveros Blanco NIU: 1668563
 - Luis Domene García NIU: 1673659
 - Joan Bayona Corbalán NIU: 1667446
+
 Deep Learning & Neural Networks
 Artificial Intelligence degree
 UAB, 2024
